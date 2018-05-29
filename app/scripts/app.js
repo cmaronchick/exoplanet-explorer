@@ -58,7 +58,15 @@ Instructions:
     /*
     Your code goes here! Uncomment the next line when you're ready to start!
      */
-
-    // getJSON('../data/earth-like-results.json')
+    getJSON('../data/earth-like-results.json')
+    .then(function(response) {
+      addSearchHeader(response.query);
+      return Promise.all(response.results.map(getJSON));
+    })
+    .then(function(planetData) {
+      planetData.forEach(function(planet) {
+      createPlanetThumb(planet);
+      });
+    });
   });
 })(document);
